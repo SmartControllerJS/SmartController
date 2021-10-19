@@ -1,0 +1,29 @@
+{
+  "name": "smartcontroller",
+  "version": "1.0.0",
+  "description": "SmartController provides an easy way of turning a smartphone into versatile controller.",
+  "main": "src/SmartControllerexp.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SmartControllerJS/SmartController.git"
+  },
+  "keywords": [
+    "smartphone",
+    "controller",
+    "game",
+    "mobile",
+    "screen",
+    "interaction",
+    "web",
+    "p2p"
+  ],
+  "author": "Emma Poliakova",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SmartControllerJS/SmartController/issues"
+  },
+  "homepage": "https://github.com/SmartControllerJS/SmartController#readme"
+}
