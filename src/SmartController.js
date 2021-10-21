@@ -1,6 +1,6 @@
 import Peer from 'peerjs'
-import QRCode from 'qrcode'
 import EventEmitter2 from 'eventemitter2'
+import QRCode from 'easyqrcodejs';
 
 
 export class SmartController extends EventEmitter2{
@@ -13,7 +13,7 @@ export class SmartController extends EventEmitter2{
       
             this.peerConnection.on('open', function(id) {  //logs the browser peer id
                 console.log('My peer ID is: ' + id);
-                self.emit('open', "hello");
+                self.emit('open', "ready");
                 
             });
       
@@ -24,12 +24,10 @@ export class SmartController extends EventEmitter2{
           peerOnConnection = (conn) => {
             this.remotePeers[conn.peer] = conn;  //add to current connected peers 
             
-
-            self.emit('connection', conn.peer); // fire an event on new connection
+            self.emit('connection', conn); // fire an event on new connection
 
             conn.on("data", function(data){  // fire an event everytime new data comes
-              
-                var message = [conn.peer, data]  //send data received from phone/remote peer + the player number/ index from the peer list
+                var message = {'id' : conn.peer, 'data': data}  //send connection id + data received from phone/remote peer
                 self.emit('data', message);
             });
       
@@ -40,15 +38,26 @@ export class SmartController extends EventEmitter2{
           }
 
           //create a QRcode from given url and display on screen on given canvas element (change to store the QRcode object and let the user display it whenever required)
-          createQrCode = (url, canvasID) => {
+          createQrCode = (url, elementID, width = 256, height = 256, playerID = null,) => {
             self.peerConnection.on("open" , function(id){
-              QRCode.toCanvas(document.getElementById(canvasID), url +"?id="+self.peerConnection.id, function (error) {
-                if (error) console.error(error)
-                console.log('success!');
-    
-            })
-        })
+              var full_url =  url +"?id="+self.peerConnection.id + "&playerid="+ playerID
+              console.log(full_url)
+
+            var options = {
+              text: full_url,
+              width: width,
+              height: height
+            }
+
+            new QRCode(document.getElementById(elementID), options);  
+          })
+         
       }
+
+        //send message to a peer with given ID
+        sendData = (peerID, data) => {
+          self.remotePeers[peerID].send(data);
+        }
 
     }
 

@@ -1,5 +1,4 @@
 import {SmartController} from './SmartController'; 
-import QRCode from 'qrcode'; // should be imported in SmartController.js only
 
 export class TouchPad{
 
@@ -14,16 +13,16 @@ export class TouchPad{
  
   processData = () =>{
    var selfT = this; //refers to the Touchpad object -> temporary solution as using self = this in constructor was somehow overwriting self variable in SmartPeer class causing the dictionary and data emitting fail 
-   this.peer.on("data", function(data){  //for not the data has following form [0] = start/end of touch, [1] = number of fingers, [2] = coordinates for each finger
+   this.peer.on("data", function(data){  //for now the data has following form data.state = start/end of touch, datat.fingers = number of fingers, data.coordinates = coordinates for each finger
  
-     selfT.state = data[2];
-     selfT.finger_number = data[1];
+     selfT.state = data.coordinates;
+     selfT.finger_number = data.fingers;
  
-     if (data[0]=="start"){
+     if (data.state=="start"){
        selfT.isActive = true;
      }
  
-     if (data[0]=="end"){
+     if (data.state=="end"){
        selfT.isActive = false;
      }
  
@@ -47,17 +46,5 @@ export class TouchPadSmartController extends SmartController{
   touchpadOptions = (conn) => {
       self.touchpadList[conn.peer] = new TouchPad(conn);
     }
-
-
-    //should be in SmartController only 
-    createQrCode = (url = "touch screen canvas url", canvasID) => {
-      self.peerConnection.on("open" , function(id){
-        QRCode.toCanvas(document.getElementById(canvasID), url +"?id="+self.peerConnection.id, function (error) {
-          if (error) console.error(error)
-          console.log('success!');
-
-      })
-  })
-}
 
 }
