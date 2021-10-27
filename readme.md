@@ -15,20 +15,20 @@ SmartController provides an easy way of turning a smartphone into versatile cont
   import SmartController from 'smartcontroller';
   ```
 
+## PC browser
 
 **Create a Peer** 
 ```javascript
-const peer = new SmartController('id', 'frequency'); 
-// all parameters are optional:
+const peer = new SmartController('id'); 
+// parameters are optional:
 // ID: if id isn't provided a random one will be created
-// Frequency: how often should the the updates occur 
 ```
 
 
 **Create a QRcode** \
 Make a qr code for easy phone connection
 ```javascript
-peer.createQrCode(type, url, canvas);
+peer.createQrCode(url, div element id, width = 256, height = 256, playerID = null);
 //select from premade controllers by specifying a type (joystick, touchscreen, nes controller) or provide a url for your own controller
 //canvas element for the qr code to be displayed
 ```
@@ -50,22 +50,20 @@ peer.on(flag, function);
 
 ## Connection 
 
-**Display stats**
+**Display stats** 
+(not yet implemented)
 ```javascript
 peer.getStats(type, DomElement)
 //Specify type of stats you wish to display (latency, update frequency...) and an html element to display them
 ```
 
-**Access last state of a player**
+**Fields**
 ```javascript
-peer.state.playerNumber
-//will return last known state of a given player
-```
+peer.remotePeers
+// list of currecntly connected users
 
-**Check active players**
-```javascript
-peer.state.players
-//will return a dictoniary of currently connected players
+peer.peerConnection 
+//peer object
 ```
 
 ## RemoteTouchPad
@@ -74,34 +72,31 @@ Extends SmartPeer
 
 **Create a Peer** 
 ```javascript
-const touchpad_peer = new TouchPadSmartPeer('id', 'frequency'); 
+const touchpad_peer = new TouchPadSmartPeer('id'); 
 ```
 
 **Fields** 
 ```javascript
-touchpad_peer.finger_number = 1-5;
-touchpad_peer.finger_position = { 1:{x, y}, 2:{x,y}, ... , 5:{x,y}};
-
-// current number of fingers on touchscreen
-// dictionary of coordinates for each finger
+touchpad_peer.touchpadList
+//list of Touchpad objects, 1 object per player
 ```
 
 **Methods** 
+(not yet implemented)
 ```javascript
 touchpad_peer.recognizeGesture();
-touchpad_peer.createQRCode(default url, canvas);
-
 // recognizeGesture will take the current finger_postion and tries to match it to one of the available gestures
-// createQRCode defaults to url with premade touch pad
 ```
 
-**Callbacks** 
-```javascript
-touchpad_peer.on(finger_number, func(){});
-touchpad_peer.on("touch_start / touch_move / touch_end", func(){});
+## Touchapad class
+Each player has their own touchpad object
 
-//finger_number can be set to 1-5 to call a specific function when there is input from 1-5 fingers
-//start/move/end commands on touchpad
+**Fields** 
+```javascript
+touchpad.connecion // peer id
+touchpad.isActive // true if the user is currently intercating with the phone screen
+touchpad.state //coordinates for each finger, cant tell finger appart coordinates are recorded in order of tapping the screen
+touchpad.figer_number //number of fingers touching the screen
 ```
 
 
@@ -111,27 +106,38 @@ Extends SmartPeer
 
 **Create a Peer** 
 ```javascript
-const joystick_peer = new JoystickSmartPeer('id', 'frequency'); 
+const joystick_peer = new JoystickSmartPeer('id'); 
 ```
 
 **Fields** 
 ```javascript
-joystick_peer.vector = [x,y]; 
-joystick_peer.state = { position :{x, y}, angle:{degrees, radians}, direction :{x, y, angle}, force, distance};
-
-//current vector calulated from the centre of the joystick and its current position
-//provides description of the last knows state of the joystick
+joystick_peer.joystickList 
+//list of Touchpad objects, 1 object per player
 ```
 
-**Methods** 
+## Joystick class
+Each player has their own joystick object
+
+**Fields** 
 ```javascript
-joystick_peer.createQRCode(default url);
-//createQRCode defaults to url with premade joystick
+touchpad.connecion // peer id
+touchpad.isActive // true if the user is currently interacting with the phone screen
+touchpad.state //all information sent from joystick [angle, direction, distance, position coordinates]
+touchpad.lastPosition = {x:0, y:0} //last position on pc screen 
 ```
 
-**Callbacks** 
+
+## Mobile browser
+
+**Create a Peer** 
 ```javascript
-joystick_peer.on("touch_start / touch_move / touch_end", func(){});
-//start/move/end commands on joystick
+const peer = new SmartPhoneController(); 
+//will automatically create a connection with the PC peer id in url
+```
+
+**Send a message to a peer**
+```javascript
+peer.connection.send(data);
+//send any user input data in the following format {type: 'user', data: data} to be recognized by the PC browser
 ```
 
