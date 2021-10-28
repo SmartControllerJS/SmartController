@@ -1,6 +1,6 @@
 {
   "name": "smartcontroller",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "SmartController provides an easy way of turning a smartphone into versatile controller.",
   "main": "src/SmartControllerexp.js",
   "scripts": {

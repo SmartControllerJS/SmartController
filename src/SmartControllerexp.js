@@ -2,4 +2,5 @@
 export { SmartController } from "./SmartController";
 export { JoystickSmartController } from "./JoystickSmartController";
 export { TouchPadSmartController } from "./TouchPadSmartController";
+export { NesSmartController } from "./NesSmartController";
 export { SmartPhoneController } from "./SmartPhoneController";
