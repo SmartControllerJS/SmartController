@@ -27,8 +27,13 @@ export class SmartController extends EventEmitter2{
             self.emit('connection', conn); // fire an event on new connection
 
             conn.on("data", function(data){  // fire an event everytime new data comes
-                var message = {'id' : conn.peer, 'data': data}  //send connection id + data received from phone/remote peer
-                self.emit('data', message);
+                if (data.type == "user"){
+                  var message = {'id' : conn.peer, 'data': data}  //send connection id + data received from phone/remote peer
+                  self.emit('data', message);
+                }
+                else if(data.type =="setup"){
+                  console.log(data.data)
+                }
             });
       
             conn.on('close',function(){  //fire an event on disconnection and send a number of a player who disconnected 

@@ -13,27 +13,29 @@ export class Joystick{
  
   processData = () => {
    var selfJ = this; //refers to the Joystick object -> temporary solution as using self = this in constructor was somehow overwriting self variable in SmartPeer class causing the dictionary and data emitting fail 
+
    this.peer.on("data", function(data){     // incoming data listener
- 
-     if (data.state=="start"){    //decide if joystick is active or not
-       selfJ.isActive = true;
-     }
- 
-     if (data.state=="end"){
-       selfJ.isActive = false;
-     }
+    if (data.type=="user"){
+      var joystickData = data.data
+      if (joystickData.state=="start"){    //decide if joystick is active or not
+        selfJ.isActive = true;
+      }
+  
+      if (joystickData.state=="end"){
+        selfJ.isActive = false;
+      }
+      
+      selfJ.state = joystickData.joystick;  //store the joystick object information sent by phone
+
      
-     selfJ.state = data.joystick;  //store the joystick object information sent by phone
-   
-     var xunits = Math.cos(selfJ.state.angle.degree*Math.PI/180) * 10;
-     var yunits = Math.sin(selfJ.state.angle.degree*Math.PI/180) * 10;
- 
-     selfJ.lastPosition.x += xunits
-     selfJ.lastPosition.y += yunits
-       
- });
+      selfJ.lastPosition.x = Math.cos(selfJ.state.angle.degree*Math.PI/180) * 10;
+      selfJ.lastPosition.y = Math.sin(selfJ.state.angle.degree*Math.PI/180) * 10;
+      
+
+    }
+  });
+
   }
- 
  
  }
 

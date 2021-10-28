@@ -14,18 +14,19 @@ export class TouchPad{
   processData = () =>{
    var selfT = this; //refers to the Touchpad object -> temporary solution as using self = this in constructor was somehow overwriting self variable in SmartPeer class causing the dictionary and data emitting fail 
    this.peer.on("data", function(data){  //for now the data has following form data.state = start/end of touch, datat.fingers = number of fingers, data.coordinates = coordinates for each finger
+    if (data.type=="user"){
  
-     selfT.state = data.coordinates;
-     selfT.finger_number = data.fingers;
- 
-     if (data.state=="start"){
-       selfT.isActive = true;
-     }
- 
-     if (data.state=="end"){
-       selfT.isActive = false;
-     }
- 
+      selfT.state = data.coordinates;
+      selfT.finger_number = data.fingers;
+  
+      if (data.state=="start"){
+        selfT.isActive = true;
+      }
+  
+      if (data.state=="end"){
+        selfT.isActive = false;
+      }
+    }
    });
  }
  

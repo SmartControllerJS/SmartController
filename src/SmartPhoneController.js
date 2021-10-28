@@ -80,7 +80,7 @@ export class SmartPhoneController extends EventEmitter2{
 
             self.connection.on('open', function () {
                 console.log("Connected to: " + self.connection.peer); 
-                self.connection.send(self.playerid)       
+                self.connection.send({type: "setup", data:{playerid:self.playerid, screenWidth: window.innerWidth, screenHeight: window.innerHeight}})       
             });
             // Handle incoming data (messages only since this is the signal sender)
             self.connection.on('data', function (data) {
