@@ -1,3 +1,5 @@
+![npm](https://img.shields.io/npm/v/smartcontroller)
+
 # SmartController: Peer-to-peer for creating smartphone controllers #
 
 SmartController provides an easy way of turning a smartphone into versatile controller.
