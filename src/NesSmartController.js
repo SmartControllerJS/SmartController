@@ -5,8 +5,7 @@ export class NesController{
   constructor(connection){
  
     this.peer = connection;  // the connection object from phone, this.peer.peer will give peer id
-    this.isActive = false; // signals of joysticks is moving
-    this.button = null; //last button pressed
+    this.buttons = {up:false, down:false, right:false, left:false, start:false, select:false, a:false, b:false}; //dictionary of buttons, true if pressed
     this.processData();  //listen to new data incoming and store them 
   }
  
@@ -15,18 +14,17 @@ export class NesController{
    this.peer.on("data", function(data){     // incoming data listener
     if (data.type=="user"){
       var controllerData = data.data
+      var button = controllerData.button;
+      
       if (controllerData.state=="start"){    //decide if button is active or not
-        selfN.isActive = true;
+      
+        selfN.buttons[button] = true;
       }
   
       if (controllerData.state=="end"){
-        selfN.isActive = false;
+        selfN.buttons[button] = false;
       }
-  
-      selfN.button = controllerData.button;  //store the controller object information sent by phone
-
       
-
     }
   });
 

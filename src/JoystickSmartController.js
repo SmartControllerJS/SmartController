@@ -7,7 +7,7 @@ export class Joystick{
     this.peer = connection;  // the connection object from phone, this.peer.peer will give peer id
     this.isActive = false; // signals of joysticks is moving
     this.state = []; //all information sent from joystick [angle, direction, distance, position coordinates]
-    this.lastPosition = {x:0, y:0} //last position on pc screen 
+    this.positionChange = {x:0, y:0} //shows by how much the position changed 
     this.processData();  //listen to new data incoming and store them 
   }
  
@@ -28,8 +28,8 @@ export class Joystick{
       selfJ.state = joystickData.joystick;  //store the joystick object information sent by phone
 
      
-      selfJ.lastPosition.x = Math.cos(selfJ.state.angle.degree*Math.PI/180) * 10;
-      selfJ.lastPosition.y = Math.sin(selfJ.state.angle.degree*Math.PI/180) * 10;
+      selfJ.positionChange.x = Math.cos(selfJ.state.angle.degree*Math.PI/180) * 10;
+      selfJ.positionChange.y = Math.sin(selfJ.state.angle.degree*Math.PI/180) * 10;
       
 
     }
