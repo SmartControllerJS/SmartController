@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+    </head>
+    <body>
+        
+        <div id="qrcode"></div>
+    <script src="smartcontroller.min.js"> </script>
+
+    <script>
+        window.addEventListener('load', function() {
+            var browser = new smartcontroller.SmartController('123456789')
+            browser.createQrCode('https://emmapoliakova.github.io/webpack-test/nesController.html', 'qrcode', 150, 150, '1');
+        })
+
+    </script>
+        
+    </body>
+    </html>

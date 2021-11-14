@@ -1,10 +1,15 @@
 {
   "name": "smartcontroller",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "SmartController provides an easy way of turning a smartphone into versatile controller.",
-  "main": "src/SmartControllerexp.js",
+  "main": "./dist/smartcontroller.min.js",
+  "files": [
+    "src/",
+    "dist/*.js",
+    "dist/*.map"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "parcel build src/SmartControllerexp.ts --out-file dist/smartcontroller.min.js"
   },
   "repository": {
     "type": "git",
@@ -30,5 +35,9 @@
     "easyqrcodejs": "4.4.6",
     "eventemitter2": "6.4.5",
     "peerjs": "1.3.2"
+  },
+  "devDependencies": {
+    "parcel-bundler": "1.12.5",
+    "typescript": "4.4.4"
   }
 }

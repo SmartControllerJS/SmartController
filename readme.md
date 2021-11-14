@@ -14,14 +14,14 @@ SmartController provides an easy way of turning a smartphone into versatile cont
         
   ```js
   // The usage -
-  import SmartController from 'smartcontroller';
+  import 'smartcontroller';
   ```
 
 ## PC browser
 
 **Create a Peer** 
 ```javascript
-const peer = new SmartController('id'); 
+const peer = new smartcontroller.SmartController('id'); 
 // parameters are optional:
 // ID: if id isn't provided a random one will be created
 ```
