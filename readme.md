@@ -132,7 +132,7 @@ Each player has their own joystick object
 joystick.connecion // peer id
 joystick.isActive // true if the user is currently interacting with the phone screen
 joystick.state //all information sent from joystick [angle, direction, distance, position coordinates]
-joystick.lastPosition = {x:0, y:0} //shows by how much the position changed 
+joystick.positionChange = {x:0, y:0} //shows by how much the position changed 
 ```
 
 
