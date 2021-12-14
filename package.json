@@ -1,0 +1,43 @@
+{
+  "name": "smartcontroller",
+  "version": "2.0.0",
+  "description": "SmartController provides an easy way of turning a smartphone into versatile controller.",
+  "main": "./dist/smartcontroller.min.js",
+  "files": [
+    "src/",
+    "dist/*.js",
+    "dist/*.map"
+  ],
+  "scripts": {
+    "build": "parcel build src/SmartControllerexp.ts --out-file dist/smartcontroller.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SmartControllerJS/SmartController.git"
+  },
+  "keywords": [
+    "smartphone",
+    "controller",
+    "game",
+    "mobile",
+    "screen",
+    "interaction",
+    "web",
+    "p2p"
+  ],
+  "author": "Emma Poliakova",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SmartControllerJS/SmartController/issues"
+  },
+  "homepage": "https://github.com/SmartControllerJS/SmartController#readme",
+  "dependencies": {
+    "easyqrcodejs": "4.4.6",
+    "eventemitter2": "6.4.5",
+    "peerjs": "1.3.2"
+  },
+  "devDependencies": {
+    "parcel-bundler": "1.12.5",
+    "typescript": "4.4.4"
+  }
+}
