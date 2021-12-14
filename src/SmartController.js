@@ -1,15 +1,18 @@
 import Peer from 'peerjs'
 import EventEmitter2 from 'eventemitter2'
 import QRCode from 'easyqrcodejs';
+import {BaseController} from './BaseController'; 
 
 
 export class SmartController extends EventEmitter2{
 
-        constructor(peerid) {
+        constructor(peerid, controllerInterface = BaseController) {
             super();
-            this.peerConnection = new Peer(peerid); 
             self = this;
+            this.peerConnection = new Peer(peerid); 
             this.remotePeers = []; //list of connections
+            this.controllerList ={};
+            this.controllerObject = controllerInterface;
       
             this.peerConnection.on('open', function(id) {  //logs the browser peer id
                 console.log('My peer ID is: ' + id);
@@ -23,6 +26,7 @@ export class SmartController extends EventEmitter2{
             
           peerOnConnection = (conn) => {
             this.remotePeers[conn.peer] = conn;  //add to current connected peers 
+            this.controllerList[conn.peer] = new this.controllerObject(conn);
             
             self.emit('connection', conn); // fire an event on new connection
 
@@ -39,6 +43,7 @@ export class SmartController extends EventEmitter2{
             conn.on('close',function(){  //fire an event on disconnection and send a number of a player who disconnected 
                 self.emit('close', conn.peer);
                 delete self.remotePeers[conn.peer];
+                delete self.controllerList[conn.peer];
             });
           }
 

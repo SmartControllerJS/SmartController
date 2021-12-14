@@ -6,56 +6,31 @@
     <body>
         
         <div id="qrcode"></div>
-        <canvas id="coordinateCanvas" width="1000" height="700"></canvas>
+
        
-    <script src="https://unpkg.com/smartcontroller@2.0.0/dist/smartcontroller.min.js"> </script>
+    <script src="../dist/smartcontroller.min.js"> </script>
 
     <script>
 
-        var canvas = document.getElementById("coordinateCanvas")
-        var ctx = canvas.getContext("2d");
-        ctx.fillStyle = 'red';
-        
-    
-        var coordinates = {};
-        
-        window.addEventListener('load', function() {
-            const simplePeer = new smartcontroller.JoystickSmartController();
+        var simplePeer;
+        window.addEventListener('load', function() { // I'm only using this to make sure the script is loaded so if you have a better way you can screp this line
+            simplePeer = new smartcontroller.JoystickSmartController(12345); //you should call this line and next line only once so you dont want it in the update loop, also not sure if having 1 as an id is long enough never thought of it
             simplePeer.createQrCode('https://emmapoliakova.github.io/webpack-test/joystick.html', 'qrcode', 150, 150, '1');
-
-
-            simplePeer.on("connection", function(data){
-                coordinates[data.peer] = {x:0, y:0}
-                console.log(coordinates)
-            })
-
             
-            processData();
 
-            function processData(){
-        
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                for (var key in simplePeer.joystickList){
-                    
-                    var joystick = simplePeer.joystickList[key]
-
-
-                    if (joystick.isActive){
-                        
-                        coordinates[joystick.peer.peer].x += joystick.positionChange.x
-                        coordinates[joystick.peer.peer].y += joystick.positionChange.y
-
-                        ctx.beginPath();
-                        ctx.arc(coordinates[joystick.peer.peer].x, -coordinates[joystick.peer.peer].y, 10, 0, 2 * Math.PI);
-                        ctx.stroke();
-                        ctx.fill(); 
-                    }
-
-                }
-                requestAnimationFrame(processData);
-            }
+            simplePeer.on("connection", function(data){ // this can also be outside the update loop that is a listener on it's own
+                console.log(simplePeer.controllerList)
+            })
         })
+
+        function printj(){
+            for (var key in simplePeer.controllerList){
+                    
+                    var joystick = simplePeer.controllerList[key]
+                    console.log(joystick)
+                }
+            requestAnimationFrame(printj);
+        }
 
 
     </script>

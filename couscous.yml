@@ -1,0 +1,42 @@
+template:
+    # Or if you are using a remote template, you can set the Git URL
+    url: https://github.com/CouscousPHP/Template-Dark
+    # Name of the index file (default is "README.md")
+    index: introduction.md
+
+github:
+    repo: https://github.com/SmartControllerJS/SmartController
+
+# List of directories to include in the processing (by default it's empty, so all markdown files are parsed)
+# Paths are relative to the optional source path given when generating the website, repository root by default
+include:
+  - docs
+
+title: Smart controller
+subtitle: Smart controller
+
+
+# The left menu bar
+menu:
+    sections:
+        main:
+          name: Main documentation
+          items:
+            introduction:
+                text: Introduction
+                relativeURL: docs/introduction.html
+
+            getting_started:
+                text: Getting Started
+                # You can use relative urls
+                relativeUrl: docs/readme.html
+
+            smart_controller:
+                text: Smart Controller
+                # Or absolute urls
+                absoluteUrl: docs/smartcontroller.html
+
+            other_controller:
+                text: Specific Controllers
+                # Or absolute urls
+                absoluteUrl: docs/specificcontrollers.html
