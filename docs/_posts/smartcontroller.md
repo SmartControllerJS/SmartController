@@ -1,4 +1,8 @@
-![npm](https://img.shields.io/npm/v/smartcontroller)
+---
+layout: post
+title:  "Smart controller"
+categories: jekyll update
+---
 
 # SmartController: Peer-to-peer for creating smartphone controllers #
 

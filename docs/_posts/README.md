@@ -1,3 +1,5 @@
+![npm](https://img.shields.io/npm/v/smartcontroller)
+
 # SmartController: Peer-to-peer for creating smartphone controllers #
 
 SmartController provides an easy way of turning a smartphone into versatile controller.
@@ -29,14 +31,16 @@ const peer = new smartcontroller.SmartController('id');
 Make a qr code for easy phone connection
 ```javascript
 peer.createQrCode(url, div element id, width = 256, height = 256, playerID = null);
-//select from premade controllers by specifying a type (joystick, touchscreen, nes controller) or provide a url for your own controller
-//canvas element for the qr code to be displayed
+//url to the controller website eg. https://emmapoliakova.github.io/webpack-test/joystick.html
+// div element to display the qr code
+//width and height of the qr code
+//optional player id to distinguish between incoming phone connections 
 ```
 
 ## Events
 
 **Register a new event**
-
+Basic syntax: 
 ```javascript
 peer.on(flag, function);
 //Flag: specify when the function should be called (connection, data, close)
