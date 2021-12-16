@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Crntrollers
+title: Controllers
 nav_order: 4
 has_children: true
 permalink: docs/Controllers
