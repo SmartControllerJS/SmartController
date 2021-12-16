@@ -22,8 +22,8 @@ title: Smart Controller
 email: 2389098p@student.gla.ac.uk
 description: >- # this means to ignore newlines until "baseurl:"
   SmartController provides an easy way of turning a smartphone into versatile controller.
-url: http://smartcontroller.com/
-baseurl: ''
+url: http://smartcontrollerjs.com/
+
 
 
 # Build settings
