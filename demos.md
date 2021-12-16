@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Smart Phone Controller 
-nav_order: 5
+title: Demos 
+nav_order: 6
 ---
 
 Create a new controller
