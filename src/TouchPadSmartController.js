@@ -11,23 +11,20 @@ export class TouchPad extends BaseController{
     this.finger_number = 0; //number of fingers touching the screen
   }
  
-  processData = () =>{
+  updateController = (data) =>{
    var selfT = this; //refers to the Touchpad object
-   this.peer.on("data", function(data){  //for now the data has following form data.state = start/end of touch, datat.fingers = number of fingers, data.coordinates = coordinates for each finger
-    if (data.type=="user"){
- 
-      selfT.state = data.coordinates;
-      selfT.finger_number = data.fingers;
-  
-      if (data.state=="start"){
-        selfT.isActive = true;
-      }
-  
-      if (data.state=="end"){
-        selfT.isActive = false;
-      }
+
+    selfT.state = data.coordinates;
+    selfT.finger_number = data.fingers;
+
+    if (data.state=="start"){
+      selfT.isActive = true;
     }
-   });
+
+    if (data.state=="end"){
+      selfT.isActive = false;
+    }
+
  }
  
  }
