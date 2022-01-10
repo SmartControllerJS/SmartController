@@ -84,6 +84,10 @@ export class SmartPhoneController extends EventEmitter2{
             });
             // Handle incoming data (messages only since this is the signal sender)
             self.connection.on('data', function (data) {
+              if (data.type == 'disconnect'){
+                console.log('cant connect now')
+                self.connection.close();
+              }
               console.log(data)
               
             });

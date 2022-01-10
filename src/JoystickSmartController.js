@@ -3,8 +3,8 @@ import {BaseController} from './BaseController';
 
 class Joystick extends BaseController{
 
-  constructor(connection){
-    super(connection);
+  constructor(connection, playerID = null){
+    super(connection, playerID);
     this.state = []; //all information sent from joystick [angle, direction, distance, position coordinates]
     this.positionChange = {x:0, y:0} //shows by how much the position changed 
     this.isActive = false;
@@ -38,8 +38,8 @@ class Joystick extends BaseController{
 
 export class JoystickSmartController extends SmartController{
 
-  constructor(peerid) {
-      super(peerid, Joystick);
+  constructor(peerid, firstConnected = true) {
+      super(peerid, firstConnected, Joystick);
   }
   
 }

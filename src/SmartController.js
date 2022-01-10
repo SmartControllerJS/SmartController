@@ -6,13 +6,14 @@ import {BaseController} from './BaseController';
 
 export class SmartController extends EventEmitter2{
 
-        constructor(peerid, controllerInterface = BaseController) {
+        constructor(peerid, firstConnected = true, controllerInterface = BaseController) {
             super();
             self = this;
             this.peerConnection = new Peer(peerid); 
             this.remotePeers = []; //list of connections
             this.controllerList ={};
             this.controllerObject = controllerInterface;
+            this.firstConnected = firstConnected;
       
             this.peerConnection.on('open', function(id) {  //logs the browser peer id
                 console.log('My peer ID is: ' + id);
@@ -25,25 +26,61 @@ export class SmartController extends EventEmitter2{
         }
             
           peerOnConnection = (conn) => {
-            this.remotePeers[conn.peer] = conn;  //add to current connected peers 
-            this.controllerList[conn.peer] = new this.controllerObject(conn);
-            
-            self.emit('connection', conn); // fire an event on new connection
+            var playerID
 
             conn.on("data", function(data){  // fire an event everytime new data comes
                 if (data.type == "user"){
                   var message = {'id' : conn.peer, 'data': data}  //send connection id + data received from phone/remote peer
                   self.emit('data', message);
                 }
+
                 else if(data.type =="setup"){
-                  console.log(data.data)
+                  playerID = data.data.playerid 
+                  console.log(playerID)
+
+                  if (playerID != 'null'){  // user set a specific player id in qrcode, store playeyid as key not peerid
+                    console.log(playerID in self.remotePeers)
+
+                    if (playerID in self.remotePeers){  //if such player id already exists
+                      if(self.firstConnected){ // defualt option, does not allow new connection to the same id
+                        conn.send({type:'disconnect'})
+                      }
+
+                      else{ //firstConnected is false, disconnect the previous one and overwrite the playerid details
+                        console.log('here')
+                        var old_conn = self.remotePeers[playerID]
+                        self.remotePeers[playerID] = conn;  //add to current connected peers 
+                        self.controllerList[playerID] = new self.controllerObject(conn, playerID);
+                        old_conn.send({type:'disconnect'})
+                      }
+                    }
+
+                    else{  //if player id not yet in use make a new entry
+                      self.remotePeers[playerID] = conn;  //add to current connected peers 
+                      self.controllerList[playerID] = new self.controllerObject(conn, playerID);
+                    }
+                  }
+
+                  else{ // user didnt set a specific player id in qrcode, store peerid as a key
+                    self.remotePeers[conn.peer] = conn;  //add to current connected peers 
+                    self.controllerList[conn.peer] = new self.controllerObject(conn);
+                  }
+
+                  self.emit('connection', conn); // fire an event on new connection
+                  console.log(self.remotePeers)
                 }
             });
       
             conn.on('close',function(){  //fire an event on disconnection and send a number of a player who disconnected 
+                if (playerID !='null' && self.remotePeers[playerID].peer == conn.peer){
+                  delete self.remotePeers[playerID];
+                  delete self.controllerList[playerID];
+                }
+                else{
+                  delete self.remotePeers[conn.peer];
+                  delete self.controllerList[conn.peer];
+                }
                 self.emit('close', conn.peer);
-                delete self.remotePeers[conn.peer];
-                delete self.controllerList[conn.peer];
             });
           }
 

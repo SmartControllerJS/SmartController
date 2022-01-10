@@ -16,7 +16,7 @@
         var simplePeer;
         var coordinates = {};
         window.addEventListener('load', function() { // I'm only using this to make sure the script is loaded so if you have a better way you can screp this line
-        simplePeer = new smartcontroller.JoystickSmartController();
+        simplePeer = new smartcontroller.JoystickSmartController('123456789', firstConnected = false);
         simplePeer.createQrCode('https://emmapoliakova.github.io/webpack-test/joystick.html', 'qrcode', 150, 150, '1');
 
 
@@ -47,10 +47,12 @@
             for (var key in simplePeer.controllerList){
                 
                 var joystick = simplePeer.controllerList[key]
-
+              
 
                 if (joystick.isActive){
-                    
+
+                    console.log(joystick.playerID)
+
                     coordinates[joystick.peer.peer].x += joystick.positionChange.x
                     coordinates[joystick.peer.peer].y += joystick.positionChange.y
 

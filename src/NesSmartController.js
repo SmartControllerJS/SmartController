@@ -3,8 +3,8 @@ import {BaseController} from './BaseController';
 
 export class NesController extends BaseController{
 
-  constructor(connection){
-    super(connection);
+  constructor(connection, playerID = null){
+    super(connection, playerID);
     this.buttons = {up:false, down:false, right:false, left:false, start:false, select:false, a:false, b:false}; //dictionary of buttons, true if pressed
   }
  
