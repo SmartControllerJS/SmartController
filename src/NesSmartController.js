@@ -32,8 +32,8 @@ export class NesController extends BaseController{
 
 export class NesSmartController extends SmartController{
 
-  constructor(peerid) {
-      super(peerid, NesController);
+  constructor(peerid, firstConnected = true) {
+      super(peerid,firstConnected, NesController);
   }
 
 }

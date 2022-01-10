@@ -95,7 +95,11 @@ export class SmartPhoneController extends EventEmitter2{
                 
             });
           }
-      
+
+      //send message to a peer with given ID
+      sendMessage = (msg) => {
+        self.connection.send({type:"user", data:msg});
+        }
     }
 
 
