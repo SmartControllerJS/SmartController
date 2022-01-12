@@ -17,9 +17,9 @@ Overrides the updateController function from BaseController to store current sta
 
 **Fields**  \\
  It has three extra fields:
- * isActive => true if joystick is currently in use 
- * state => 
- * finger_number => 
+ * isActive => true if touchpad is currently in use 
+ * state => xy coordinates for each finger stored as array
+ * finger_number => int number of fingers interacting with the screen
 
 ```javascript
 

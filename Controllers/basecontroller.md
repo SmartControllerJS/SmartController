@@ -5,37 +5,31 @@ parent: Controllers
 ---
 
 ## BaseController
-A base class for creating controllers. It is a default controller created in SmartCOntroller on connection unless a specific controller class is selected. 
+A base class for creating controllers. It is a default controller created in SmartController on connection unless a specific controller class is selected. 
 
 ### Methods
 
 **Create a Peer** 
 ```javascript
-const simple_peer = new smartcontroller.SmartController('id'); 
+const simple_peer = new smartcontroller.SmartController('id', playerID = null); 
 ```
 
 ## Joystick extends BaseController
 Overrides the updateController function from BaseController to store current status, joystick details and position change.
 
 **Fields**  \\
- It has a single field:
+ It has two field:
+ * peer - stores the Peerjs object of the smartphone
+ * playerID - if a player ID was specified in the QR code it will be mapped to a controller, otherwise null
 
-
-```javascript
-joystick.isActive // true if the user is currently interacting with the phone screen
-```
 
 **Example**
 ```javascript
-    // make a JoystickSmartController object
-    const simple_peer = new smartcontroller.JoystickSmartController('id'); 
+    // make a SmartController object
+    const simple_peer = new smartcontroller.SmartController('id'); 
 
-    //Check if the joystick is being interacted with
-    if (simple_peer.controllerList[Object.keys(controllerList)[0]].isActive){
-        // do something
+    //Check the ID of the controller
+    for (var controller in simple_peer.controllerList){
+        console.log(controller.playerID)
     }
 ```
-
-
-Try a demo here: link
-Use the Joystick controller for your project: link

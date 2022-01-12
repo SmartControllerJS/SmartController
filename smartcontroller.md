@@ -10,14 +10,16 @@ nav_order: 3
 
 **Create a Peer** 
 ```javascript
-const peer = new smartcontroller.SmartController('id'); 
+const peer = new smartcontroller.SmartController('id', firstConnected = true, controllerInterface = BaseController); 
 // parameters are optional:
 // ID: if id isn't provided a random one will be created
+//firstConnected decides how to handle multiple connections of the same player id
+// controllerInterface decides what type of controller is generated 
 ```
 
 
 **Create a QRcode** \
-Make a qr code and display it on the screen. The url is the link to where the phone controller is hosted. The div element takes an id of a div and displays the qr code. PlayerID can be set to distinguish between connections. 
+Make a qr code and display it on the screen. The url is the link to where the phone controller is hosted. The div element takes an ID of a div and displays the qr code. PlayerID can be set to distinguish between connections. 
 ```javascript
 peer.createQrCode(url, div element id, width = 256, height = 256, playerID = null);
 //select from premade controllers by specifying a type (joystick, touchscreen, nes controller) or provide a url for your own controller
@@ -28,7 +30,7 @@ peer.createQrCode(url, div element id, width = 256, height = 256, playerID = nul
 
 * peerConnection - creates a peerjs object for the browser that will allow for the smartphones to connect and will process the incoming data. The peer id will be random unless specified in the constructor
 * remotePeers - to be removed
-* controllerList - a dictionary of controllers, one controller is created per user connected. The value is mapped to the peer id of the smartphone. 
+* controllerList - a dictionary of controllers, one controller is created per user connected. The value is mapped to the peer ID of the smartphone if no playerID is specified in the QRcode, otherwise the controller is mapped to set player ID. 
 
 ### Events
 
