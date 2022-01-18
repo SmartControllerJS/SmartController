@@ -1,6 +1,6 @@
 {
   "name": "smartcontroller",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "SmartController provides an easy way of turning a smartphone into versatile controller.",
   "main": "./dist/smartcontroller.min.js",
   "files": [
