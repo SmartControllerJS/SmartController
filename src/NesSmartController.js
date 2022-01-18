@@ -1,39 +1,41 @@
-import {SmartController} from './SmartController'; 
-import {BaseController} from './BaseController'; 
+import { SmartController } from "./SmartController";
+import { BaseController } from "./BaseController";
 
-export class NesController extends BaseController{
-
-  constructor(connection, playerID = null){
+export class NesController extends BaseController {
+  constructor(connection, playerID = null) {
     super(connection, playerID);
-    this.buttons = {up:false, down:false, right:false, left:false, start:false, select:false, a:false, b:false}; //dictionary of buttons, true if pressed
+    this.buttons = {
+      up: false,
+      down: false,
+      right: false,
+      left: false,
+      start: false,
+      select: false,
+      a: false,
+      b: false,
+    }; //dictionary of buttons, true if pressed
   }
- 
+
   updateController = (data) => {
-   var selfN = this; //refers to the NesController object 
-      
-    var controllerData = data
+    var selfN = this; //refers to the NesController object
+
+    var controllerData = data;
     var button = controllerData.button;
-    
-    if (controllerData.state=="start"){    //decide if button is active or not
-    
+
+    if (controllerData.state == "start") {
+      //decide if button is active or not
+
       selfN.buttons[button] = true;
     }
 
-    if (controllerData.state=="end"){
+    if (controllerData.state == "end") {
       selfN.buttons[button] = false;
     }
-      
-    
+  };
+}
 
-  }
- 
- }
-
-
-export class NesSmartController extends SmartController{
-
+export class NesSmartController extends SmartController {
   constructor(peerid, firstConnected = true) {
-      super(peerid,firstConnected, NesController);
+    super(peerid, firstConnected, NesController);
   }
-
 }
