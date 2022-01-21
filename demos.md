@@ -83,7 +83,7 @@ First create an empty html and js files, then start by editing the javascript fi
 
    ```js
         <div class="btn-group">
-            <button id="up" class="button"><img src="images/up.png" width="100px" height= "100px" style="pointer-events: none"></button>
+            <button id="up"><img src="images/up.png" width="100px" height= "100px"></button>
         </div>
    ```
 
