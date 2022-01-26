@@ -8,6 +8,8 @@ nav_order: 6
 
 ### NES controller tutorial
 
+ <iframe src="https://smartcontrollerjs.github.io/Controllers/controller-receive-web.html" width="100%" height="300" ></iframe>
+
 This tutorial will show you how to create a simple website <a href='https://smartcontrollerjs.github.io/Controllers/controller-receive.html'> demo </a> to process data from NES controller. Everytime an arrow key is pressed it is highlighted on the screen. <a href ='https://github.com/SmartControllerJS/Controllers/blob/main/src/controller_receive.js' target="_blank"> Source code </a> and <a href ='https://github.com/SmartControllerJS/Controllers/blob/main/docs/controller-receive.html' target="_blank"> html file</a>.<img src="media/arrows.gif" width="1050" />
 
 First create an empty html and js files, then start by editing the javascript file:
@@ -44,18 +46,23 @@ First create an empty html and js files, then start by editing the javascript fi
 3. Add a function to continually process the data and call it:
 
    ```js
-   //a function that checks if player 1 is connected, if yes then check the arrow keys to highlight the buttons
+   //a function that checks if player 1 is connected
+   //if yes then check the arrow keys to highlight the buttons
    function processData() {
      if (simplePeer.controllerList[1]) {
        //store the controller to access its fields
+       //the dictionary key is 1 because a player ID has been specified, otherwise the peer ID from smartphone will be used
        var controller = simplePeer.controllerList[1];
+       var button_id = ["up", "down", "left", "right"];
        //check if up button is pressed, if yes change the background colour from gray to yellow
-       if (controller.buttons.up) {
-         document.getElementById("up").style.backgroundColor = "#e9ec06";
-       } else {
-         document.getElementById("up").style.backgroundColor = "#dddcdc";
+       //then do the same for the remaining arrows
+       for (var id of button_id) {
+         if (controller.buttons[id]) {
+           document.getElementById(id).style.backgroundColor = "#e9ec06";
+         } else {
+           document.getElementById(id).style.backgroundColor = "#dddcdc";
+         }
        }
-       //add the remaining buttons the same way
      }
      requestAnimationFrame(processData);
    }
