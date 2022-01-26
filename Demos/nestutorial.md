@@ -1,16 +1,16 @@
 ---
 layout: default
-title: Demos
-nav_order: 6
+title: Nes controller tutorial
+parent: Demos
 ---
 
-## Tutorials and demos
+## NES controller tutorial
 
-### NES controller tutorial
+### Try the demo!
 
  <iframe src="https://smartcontrollerjs.github.io/Controllers/controller-receive-web.html" width="100%" height="300" ></iframe>
 
-This tutorial will show you how to create a simple website <a href='https://smartcontrollerjs.github.io/Controllers/controller-receive.html'> demo </a> to process data from NES controller. Everytime an arrow key is pressed it is highlighted on the screen. <a href ='https://github.com/SmartControllerJS/Controllers/blob/main/src/controller_receive.js' target="_blank"> Source code </a> and <a href ='https://github.com/SmartControllerJS/Controllers/blob/main/docs/controller-receive.html' target="_blank"> html file</a>.<img src="media/arrows.gif" width="1050" />
+This tutorial will show you how to create a simple website <a href='https://smartcontrollerjs.github.io/Controllers/controller-receive.html'> demo </a> to process data from NES controller. Everytime an arrow key is pressed it is highlighted on the screen. <a href ='https://github.com/SmartControllerJS/Controllers/blob/main/src/controller_receive.js' target="_blank"> Source code </a> and <a href ='https://github.com/SmartControllerJS/Controllers/blob/main/docs/controller-receive.html' target="_blank"> html file</a>.<img src="../media/arrows.gif" width="1050" />
 
 First create an empty html and js files, then start by editing the javascript file:
 
