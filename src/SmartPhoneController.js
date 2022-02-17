@@ -10,14 +10,14 @@ export class SmartPhoneController extends EventEmitter2 {
     this.webid = null;
     this.playerid = null;
     this.connection = null;
-    this.messageDelay = 0;
+    this.messageThrottle = 0;
     this.prevMessage = Date.now();
     this.idToSend = this.peerConnection.id;
 
     this.peerConnection.on("open", function (id) {
       //logs the browser peer id
       console.log("My peer ID is: " + id);
-
+      self.idToSend = id;
       // Workaround for peer.reconnect deleting previous id
       if (self.peerConnection.id === null) {
         console.log("Received null id from peer open");
@@ -67,7 +67,7 @@ export class SmartPhoneController extends EventEmitter2 {
     const urlParams = new URLSearchParams(queryString);
     self.webid = urlParams.get("id");
     self.playerid = urlParams.get("playerid");
-    self.messageDelay = parseInt(urlParams.get("delay"));
+    self.messageThrottle = parseInt(urlParams.get("throttle"));
 
     if (self.playerid != "null") {
       self.idToSend = self.playerid;
@@ -116,7 +116,7 @@ export class SmartPhoneController extends EventEmitter2 {
 
   //send message to a peer with given ID
   sendMessage = (msg) => {
-    if (Date.now() - self.prevMessage >= self.messageDelay) {
+    if (Date.now() - self.prevMessage >= self.messageThrottle) {
       self.connection.send({ type: "user", data: msg, id: self.idToSend });
       self.prevMessage = Date.now();
     }

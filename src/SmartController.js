@@ -34,16 +34,25 @@ export class SmartController extends EventEmitter2 {
     conn.on("data", function (data) {
       // fire an event everytime new data comes
       if (data.type == "user") {
-        /** 
-        if (Date.now() - self.controllerList[data.id].messageTime < 1000) {
-          self.controllerList[data.id].messagesPerSecond += 1;
-        } else {
-          self.controllerList[data.id].messageTime = Date.now();
-          console.log(self.controllerList[data.id].messagesPerSecond);
-          self.controllerList[data.id].messagesPerSecond = 0;
+        var delete_time = true;
+        var times = 0;
+        while (delete_time) {
+          if (
+            Date.now() - self.controllerList[data.id].messageTimes[times] >
+            1000
+          ) {
+            self.controllerList[data.id].messageTimes.splice(times, 1);
+          } else {
+            delete_time = false;
+          }
+          times += 1;
         }
-        */
-        var message = { id: conn.peer, data: data }; //send connection id + data received from phone/remote peer
+
+        self.controllerList[data.id].messageTimes.push(Date.now());
+        self.controllerList[data.id].messagesPerSecond =
+          self.controllerList[data.id].messageTimes.length;
+
+        var message = { id: data.id, data: data }; //send connection id + data received from phone/remote peer
         self.emit("data", message);
       } else if (data.type == "setup") {
         playerID = data.data.playerid;
@@ -116,8 +125,9 @@ export class SmartController extends EventEmitter2 {
     width = 256,
     height = 256,
     playerID = null,
-    delay = 0
+    throttle = 0
   ) => {
+    document.getElementById(elementID).innerHTML = "peer id not ready";
     self.peerConnection.on("open", function (id) {
       var full_url =
         url +
@@ -125,8 +135,8 @@ export class SmartController extends EventEmitter2 {
         self.peerConnection.id +
         "&playerid=" +
         playerID +
-        "&delay=" +
-        delay;
+        "&throttle=" +
+        throttle;
       console.log(full_url);
 
       var options = {
@@ -134,7 +144,9 @@ export class SmartController extends EventEmitter2 {
         width: width,
         height: height,
       };
-
+      document
+        .getElementById(elementID)
+        .removeChild(document.getElementById(elementID).firstChild);
       new QRCode(document.getElementById(elementID), options);
     });
   };
