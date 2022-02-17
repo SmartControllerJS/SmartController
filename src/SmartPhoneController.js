@@ -10,6 +10,9 @@ export class SmartPhoneController extends EventEmitter2 {
     this.webid = null;
     this.playerid = null;
     this.connection = null;
+    this.messageDelay = 0;
+    this.prevMessage = Date.now();
+    this.idToSend = this.peerConnection.id;
 
     this.peerConnection.on("open", function (id) {
       //logs the browser peer id
@@ -64,6 +67,11 @@ export class SmartPhoneController extends EventEmitter2 {
     const urlParams = new URLSearchParams(queryString);
     self.webid = urlParams.get("id");
     self.playerid = urlParams.get("playerid");
+    self.messageDelay = parseInt(urlParams.get("delay"));
+
+    if (self.playerid != "null") {
+      self.idToSend = self.playerid;
+    }
   };
 
   peerCreateConnection = () => {
@@ -95,13 +103,22 @@ export class SmartPhoneController extends EventEmitter2 {
         self.connection.close();
         window.alert("Disconnected");
       }
-      console.log(data);
+
+      if (data.type == "stats") {
+        self.connection.send({
+          type: "stats",
+          id: self.idToSend,
+        });
+      }
     });
     self.connection.on("close", function () {});
   };
 
   //send message to a peer with given ID
   sendMessage = (msg) => {
-    self.connection.send({ type: "user", data: msg });
+    if (Date.now() - self.prevMessage >= self.messageDelay) {
+      self.connection.send({ type: "user", data: msg, id: self.idToSend });
+      self.prevMessage = Date.now();
+    }
   };
 }

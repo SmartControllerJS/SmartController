@@ -3,6 +3,10 @@ export class BaseController {
     this.peer = connection; // the connection object from phone, this.peer.peer will give peer id
     this.playerID = playerID;
     var selfC = this;
+    this.ping = 0;
+    this.prevTime = Date.now();
+    this.messageTime = Date.now();
+    this.messagesPerSecond = 0;
 
     this.peer.on("data", function (data) {
       // incoming data listener

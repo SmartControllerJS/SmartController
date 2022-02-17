@@ -7,6 +7,7 @@ export class SmartController extends EventEmitter2 {
   constructor(
     peerid,
     firstConnected = true,
+    stats = true,
     controllerInterface = BaseController
   ) {
     super();
@@ -16,6 +17,7 @@ export class SmartController extends EventEmitter2 {
     this.controllerList = {};
     this.controllerObject = controllerInterface;
     this.firstConnected = firstConnected;
+    this.statsOn = stats;
 
     this.peerConnection.on("open", function (id) {
       //logs the browser peer id
@@ -32,15 +34,22 @@ export class SmartController extends EventEmitter2 {
     conn.on("data", function (data) {
       // fire an event everytime new data comes
       if (data.type == "user") {
+        /** 
+        if (Date.now() - self.controllerList[data.id].messageTime < 1000) {
+          self.controllerList[data.id].messagesPerSecond += 1;
+        } else {
+          self.controllerList[data.id].messageTime = Date.now();
+          console.log(self.controllerList[data.id].messagesPerSecond);
+          self.controllerList[data.id].messagesPerSecond = 0;
+        }
+        */
         var message = { id: conn.peer, data: data }; //send connection id + data received from phone/remote peer
         self.emit("data", message);
       } else if (data.type == "setup") {
         playerID = data.data.playerid;
-        console.log(playerID);
 
         if (playerID != "null") {
           // user set a specific player id in qrcode, store playeyid as key not peerid
-          console.log(playerID in self.remotePeers);
 
           if (playerID in self.remotePeers) {
             //if such player id already exists
@@ -72,7 +81,18 @@ export class SmartController extends EventEmitter2 {
         }
 
         self.emit("connection", conn); // fire an event on new connection
-        console.log(self.remotePeers);
+        if (self.statsOn) {
+          conn.send({ type: "stats" });
+        }
+      }
+
+      //calculate ping
+      if (data.type == "stats") {
+        var prevPing = self.controllerList[data.id].prevTime;
+        var ping = Date.now() - prevPing;
+        self.controllerList[data.id].ping = ping;
+        self.controllerList[data.id].prevTime = Date.now();
+        conn.send({ type: "stats" });
       }
     });
 
@@ -95,11 +115,18 @@ export class SmartController extends EventEmitter2 {
     elementID,
     width = 256,
     height = 256,
-    playerID = null
+    playerID = null,
+    delay = 0
   ) => {
     self.peerConnection.on("open", function (id) {
       var full_url =
-        url + "?id=" + self.peerConnection.id + "&playerid=" + playerID;
+        url +
+        "?id=" +
+        self.peerConnection.id +
+        "&playerid=" +
+        playerID +
+        "&delay=" +
+        delay;
       console.log(full_url);
 
       var options = {

@@ -25,7 +25,7 @@ export class TouchPad extends BaseController {
 }
 
 export class TouchPadSmartController extends SmartController {
-  constructor(peerid, firstConnected = true) {
-    super(peerid, firstConnected, TouchPad);
+  constructor(peerid, firstConnected = true, stats = true) {
+    super(peerid, firstConnected, stats, TouchPad);
   }
 }
