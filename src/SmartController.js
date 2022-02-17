@@ -127,7 +127,11 @@ export class SmartController extends EventEmitter2 {
     playerID = null,
     throttle = 0
   ) => {
-    document.getElementById(elementID).innerHTML = "peer id not ready";
+    const warning = document.createElement("warn");
+    const textnode = document.createTextNode("Peer Id not ready.");
+    warning.appendChild(textnode);
+    document.getElementById(elementID).appendChild(warning);
+
     self.peerConnection.on("open", function (id) {
       var full_url =
         url +
@@ -144,9 +148,7 @@ export class SmartController extends EventEmitter2 {
         width: width,
         height: height,
       };
-      document
-        .getElementById(elementID)
-        .removeChild(document.getElementById(elementID).firstChild);
+      document.getElementById(elementID).removeChild(warning);
       new QRCode(document.getElementById(elementID), options);
     });
   };
