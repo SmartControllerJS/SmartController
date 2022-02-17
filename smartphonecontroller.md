@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Smart Phone Controller 
+title: Smart Phone Controller
 nav_order: 5
 ---
 
@@ -8,15 +8,16 @@ Create a new controller
 
 ## Mobile browser
 
-**Create a Peer** 
+**Create a Peer**
+
 ```javascript
-const peer = new SmartPhoneController(); 
+const peer = new SmartPhoneController();
 //will automatically create a connection with the PC peer id in url
 ```
 
 **Send a message to a peer**
-```javascript
-peer.connection.send(data);
-//send any user input data in the following format {type: 'user', data: data} to be recognized by the PC browser
-```
 
+```javascript
+peer.sendMessage(data);
+//send any user input data
+```

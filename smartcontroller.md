@@ -13,7 +13,10 @@ Every page needs a smartcontroller object to manage the peer connections.
 
 - peer ID - you may specify the browser peer ID as a string
 - firstConnected - true by default, if multiple players scan a QR code with the same player ID only the first connection will be kept, if false then every new connection to that player ID will disconnect the previous one
+- stats - true by default, will calculate ping for each controller if enabled
 - controllerInterface - creates a specific controller object
+
+| ⚠️ WARNING: If a peer ID is specified, only a single browser tab will work. There cannot be multiple peers with the same ID therefore, if there are multiple tabs with the same peer open only one the first one will display the QR code and be open to connections. ⚠️ |
 
 ```javascript
 const peer = new smartcontroller.SmartController(
@@ -24,6 +27,7 @@ const peer = new smartcontroller.SmartController(
 // parameters are optional:
 // ID: if id isn't provided a random one will be created
 //firstConnected decides how to handle multiple connections of the same player id
+// stats: sends stats messages between browser and controller to calculate ping
 // controllerInterface decides what type of controller is generated
 ```
 
@@ -37,9 +41,10 @@ Make a qr code and display it on the screen.
 - div element - takes an ID of a div to display the qr code
 - PlayerID - can be set to distinguish between connections, if specified it will be used as a key in the controllerList
 - width, height - specify the size of the QR code
+- message throttle - message from a phone controller will be sent every n milliseconds. If not 0, some of the messages will be skipped, only suitable for controllers with high user data output.
 
 ```javascript
-peer.createQrCode(url, div element id, width = 256, height = 256, playerID = null);
+peer.createQrCode(url, div element id, width = 256, height = 256, playerID = null, throttle = 0);
 //select from premade controllers or provide a url for your own controller
 //canvas element for the qr code to be displayed
 ```
