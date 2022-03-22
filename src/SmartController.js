@@ -30,32 +30,18 @@ export class SmartController extends EventEmitter2 {
 
   peerOnConnection = (conn) => {
     var playerID;
+    var idToUse;
 
     conn.on("data", function (data) {
       // fire an event everytime new data comes
       if (data.type == "user") {
-        var delete_time = true;
-        var times = 0;
-        while (delete_time) {
-          if (
-            Date.now() - self.controllerList[data.id].messageTimes[times] >
-            1000
-          ) {
-            self.controllerList[data.id].messageTimes.splice(times, 1);
-          } else {
-            delete_time = false;
-          }
-          times += 1;
-        }
-
         self.controllerList[data.id].messageTimes.push(Date.now());
-        self.controllerList[data.id].messagesPerSecond =
-          self.controllerList[data.id].messageTimes.length;
 
         var message = { id: data.id, data: data }; //send connection id + data received from phone/remote peer
         self.emit("data", message);
       } else if (data.type == "setup") {
         playerID = data.data.playerid;
+        idToUse = playerID;
 
         if (playerID != "null") {
           // user set a specific player id in qrcode, store playeyid as key not peerid
@@ -87,12 +73,31 @@ export class SmartController extends EventEmitter2 {
           // user didnt set a specific player id in qrcode, store peerid as a key
           self.remotePeers[conn.peer] = conn; //add to current connected peers
           self.controllerList[conn.peer] = new self.controllerObject(conn);
+          idToUse = conn.peer;
         }
 
         self.emit("connection", conn); // fire an event on new connection
         if (self.statsOn) {
           conn.send({ type: "stats" });
         }
+
+        setInterval(function () {
+          var delete_time = true;
+          var times = 0;
+          while (delete_time) {
+            if (
+              Date.now() - self.controllerList[idToUse].messageTimes[times] >
+              1000
+            ) {
+              self.controllerList[idToUse].messageTimes.splice(times, 1);
+            } else {
+              delete_time = false;
+            }
+            times += 1;
+          }
+          self.controllerList[idToUse].messagesPerSecond =
+            self.controllerList[idToUse].messageTimes.length;
+        }, 10);
       }
 
       //calculate ping
@@ -101,6 +106,22 @@ export class SmartController extends EventEmitter2 {
         var ping = Date.now() - prevPing;
         self.controllerList[data.id].ping = ping;
         self.controllerList[data.id].prevTime = Date.now();
+
+        var delete_time = true;
+        var times = 0;
+        while (delete_time) {
+          if (
+            Date.now() - self.controllerList[data.id].messageTimesStats[times] >
+            1000
+          ) {
+            self.controllerList[data.id].messageTimesStats.splice(times, 1);
+          } else {
+            delete_time = false;
+          }
+          times += 1;
+        }
+        self.controllerList[data.id].messageTimesStats.push(Date.now());
+
         conn.send({ type: "stats" });
       }
     });

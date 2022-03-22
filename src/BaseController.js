@@ -6,6 +6,7 @@ export class BaseController {
     this.ping = 0;
     this.prevTime = Date.now();
     this.messageTimes = [Date.now()];
+    this.messageTimesStats = [Date.now()];
     this.messagesPerSecond = 0;
 
     this.peer.on("data", function (data) {
