@@ -6,7 +6,7 @@ nav_order: 1
 
 # SmartController: Peer-to-peer for creating smartphone controllers
 
-SmartController provides an easy way of turning a smartphone into versatile controller.
+SmartController provides an easy way of turning a smartphone into versatile controller. Recommended to use with Google Chrome or Firefox.
 
 <img src="media/controllers.gif" width="1000" />
 

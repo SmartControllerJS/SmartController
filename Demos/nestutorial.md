@@ -26,7 +26,7 @@ First create an empty html and js files, then start by editing the javascript fi
    ```js
    //Add this tag to your html file
    <head>
-     <script src="https://unpkg.com/smartcontroller@3.1.0/dist/smartcontroller.min.js"></script>
+     <script src="https://unpkg.com/smartcontroller@3.2.4/dist/smartcontroller.min.js"></script>
    </head>
    ```
 

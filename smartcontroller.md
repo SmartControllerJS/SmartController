@@ -22,6 +22,7 @@ Every page needs a smartcontroller object to manage the peer connections.
 const peer = new smartcontroller.SmartController(
   "id",
   (firstConnected = true),
+  (stats = true),
   (controllerInterface = BaseController)
 );
 // parameters are optional:
