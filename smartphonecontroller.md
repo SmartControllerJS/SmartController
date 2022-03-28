@@ -6,7 +6,7 @@ nav_order: 6
 
 ## Create a new controller
 
-SmartPhoneController is a class that facilitates the peer connection on the smartphone side. It handles almost everything automatically including the connection and all the parameters set in the URL. The only thing you need to do is create a desired format for your messages and then used the sendMessage function to sent it to the computer browser.
+SmartPhoneController is a class that facilitates the peer connection on the smartphone side. It handles almost everything automatically including the connection and all the parameters set in the URL. The only thing you need to do is create a desired format for your messages and then use the sendMessage function to send it to the computer browser.
 
 **Create a Peer**
 
@@ -24,7 +24,7 @@ peer.sendMessage(data);
 
 ## Making a new controller - demo
 
-Let's make a simple accelerometer demo. Once its ready you can upload the file to your GitHub repository and test it with the <a href ='https://smartcontrollerjs.github.io/Controllers/stats.html'> statistics page </a>.
+Let's make a simple accelerometer demo. Once it's ready, you can upload the file to your GitHub repository and test it with the <a href ='https://smartcontrollerjs.github.io/Controllers/stats.html'> statistics page </a>.
 
 1. Start by creating an empty HTML file and including:
 
