@@ -8,7 +8,7 @@ nav_order: 2
 
 ### Dependencies
 
-SmartController uses <a href='https://peerjs.com/'> peerjs </a> to proide peer to peer connection between PC and smartphone browsers. The events are handled by <a href ='https://github.com/EventEmitter2/EventEmitter2'> EventEmmiter2 </a> and the qr codes are generated with <a href='https://github.com/ushelp/EasyQRCodeJS'> EasyQRCodeJS</a>
+SmartController uses <a href='https://peerjs.com/'> peerjs </a> to provide peer to peer connection between PC and smartphone browsers. The events are handled by <a href ='https://github.com/EventEmitter2/EventEmitter2'> EventEmmiter2 </a> and the qr codes are generated with <a href='https://github.com/ushelp/EasyQRCodeJS'> EasyQRCodeJS</a>
 
 **Include the library**
 
