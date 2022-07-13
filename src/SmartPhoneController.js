@@ -4,7 +4,11 @@ import EventEmitter2 from "eventemitter2";
 export class SmartPhoneController extends EventEmitter2 {
   constructor(peerid) {
     super();
-    this.peerConnection = new Peer(peerid);
+    this.peerConnection = new Peer({
+      secure: true,
+      host: "smartcontrollerserver.herokuapp.com", // change here the herokuapp name
+      port: 443,
+    });
     self = this;
     this.lastPeerId = null;
     this.webid = null;

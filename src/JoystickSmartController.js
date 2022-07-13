@@ -37,7 +37,7 @@ class Joystick extends BaseController {
 }
 
 export class JoystickSmartController extends SmartController {
-  constructor(peerid, firstConnected = true, stats = true) {
+  constructor(peerid = null, firstConnected = true, stats = true) {
     super(peerid, firstConnected, stats, Joystick);
   }
 }

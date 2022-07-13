@@ -2,69 +2,74 @@
 <html>
     <head>
         <meta charset="utf-8"/>
+        <style>
+            body {
+              height: 7500px;
+            }
+            </style>
     </head>
     <body>
         
         <div id="qrcode"></div>
-        <canvas id="coordinateCanvas" width="1000" height="700"></canvas>
 
-       
+        <img src="https://www.lovethegarden.com/sites/default/files/content/articles/UK_wildbirds-01-robin.jpg" >
+        <img src="https://images.unsplash.com/photo-1444464666168-49d633b86797?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8YmlyZHxlbnwwfHwwfHw%3D&w=1000&q=80">
+        <img src="https://ontariospca.ca/wp-content/uploads/2019/03/Living-with-wildlife-birds.jpg">
+        
+
     <script src="../dist/smartcontroller.min.js"> </script>
 
     <script>
-
+        var pos = 0
+        var prevpos = 0
+        var direction = false
         var simplePeer;
+        var joystick;
         var coordinates = {};
         window.addEventListener('load', function() { // I'm only using this to make sure the script is loaded so if you have a better way you can screp this line
-        simplePeer = new smartcontroller.JoystickSmartController('123456789', firstConnected = true);
-        simplePeer.createQrCode('https://emmapoliakova.github.io/webpack-test/joystick.html', 'qrcode', 150, 150, '1');
-
+        simplePeer = new smartcontroller.TouchPadSmartController('123456789', firstConnected = true);
+        simplePeer.createQrCode('https://smartcontrollerjs.github.io/Controllers/touchpad.html', 'qrcode', 150, 150, '1');
 
         simplePeer.on("connection", function(data){
-            coordinates[data.peer] = {x:100, y:100}
-            console.log(coordinates)
-        })
-
-        simplePeer.on("close", function(data){
-            console.log('player has disconnected: ' + data)
             console.log(simplePeer.controllerList)
         })
-      
 
-        processData();
+        simplePeer.on("data", function(data){
+            joystick = simplePeer.controllerList[1]
+
+            if (joystick.isActive){
+                ypos = joystick.state[0][1]
+
+                if (ypos > prevpos){
+                    direction = false
+                }
+                else{
+                    direction = true
+                }
+
+                console.log(direction)
+
+                prevpos = ypos
+            }
+
+            if (direction){
+                pos = -10
+
+            }
+
+            else{
+                pos = 10
+            }
+
+            window.scrollBy(0, pos);
+        })
+
 
         })
 
 
-        var canvas = document.getElementById("coordinateCanvas")
-        var ctx = canvas.getContext("2d");
-        ctx.fillStyle = 'red';
         
-        function processData(){
-        
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-            for (var key in simplePeer.controllerList){
-                
-                var joystick = simplePeer.controllerList[key]
-              
-
-                if (joystick.isActive){
-
-                    console.log(joystick.playerID)
-
-                    coordinates[joystick.peer.peer].x += joystick.positionChange.x
-                    coordinates[joystick.peer.peer].y += joystick.positionChange.y
-
-                    ctx.beginPath();
-                    ctx.arc(coordinates[joystick.peer.peer].x, -coordinates[joystick.peer.peer].y, 10, 0, 2 * Math.PI);
-                    ctx.stroke();
-                    ctx.fill(); 
-                }
-    
-            }
-            requestAnimationFrame(processData);
-        }
+       
 
     </script>
         

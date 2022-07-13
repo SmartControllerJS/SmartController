@@ -5,14 +5,26 @@ import { BaseController } from "./BaseController";
 
 export class SmartController extends EventEmitter2 {
   constructor(
-    peerid,
+    peerid = null,
     firstConnected = true,
     stats = true,
     controllerInterface = BaseController
   ) {
     super();
     self = this;
-    this.peerConnection = new Peer(peerid);
+    if (peerid == null) {
+      this.peerConnection = new Peer({
+        secure: true,
+        host: "smartcontrollerserver.herokuapp.com",
+        port: 443,
+      });
+    } else {
+      this.peerConnection = new Peer(peerid, {
+        secure: true,
+        host: "smartcontrollerserver.herokuapp.com",
+        port: 443,
+      });
+    }
     this.remotePeers = []; //list of connections
     this.controllerList = {};
     this.controllerObject = controllerInterface;
