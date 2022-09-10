@@ -13,17 +13,9 @@ export class SmartController extends EventEmitter2 {
     super();
     self = this;
     if (peerid == null) {
-      this.peerConnection = new Peer({
-        secure: true,
-        host: "smartcontrollerserver.herokuapp.com",
-        port: 443,
-      });
+      this.peerConnection = new Peer();
     } else {
-      this.peerConnection = new Peer(peerid, {
-        secure: true,
-        host: "smartcontrollerserver.herokuapp.com",
-        port: 443,
-      });
+      this.peerConnection = new Peer(peerid);
     }
     this.remotePeers = []; //list of connections
     this.controllerList = {};
@@ -158,7 +150,8 @@ export class SmartController extends EventEmitter2 {
     width = 256,
     height = 256,
     playerID = null,
-    throttle = 0
+    throttle = 0,
+    desc = true
   ) => {
     const warning = document.createElement("warn");
     const textnode = document.createTextNode("Peer Id not ready.");
@@ -183,6 +176,20 @@ export class SmartController extends EventEmitter2 {
       };
       document.getElementById(elementID).removeChild(warning);
       new QRCode(document.getElementById(elementID), options);
+      if (desc) {
+        document
+          .getElementById(elementID)
+          .appendChild(document.createElement("br"));
+        document
+          .getElementById(elementID)
+          .appendChild(document.createTextNode("Need a QR code scanner?"));
+        document
+          .getElementById(elementID)
+          .appendChild(document.createElement("br"));
+        document
+          .getElementById(elementID)
+          .appendChild(document.createTextNode("https://qrcodescan.in/"));
+      }
     });
   };
 

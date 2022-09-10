@@ -12,21 +12,25 @@ export class ScrollController extends BaseController {
   updateController = (data) => {
     var selfT = this;
 
-    if (data.state == "start") {
-      selfT.isActive = true;
-    }
+    if (data.type == "touchpad") {
+      if (data.state == "start") {
+        selfT.isActive = true;
+      }
 
-    if (data.state == "end") {
-      selfT.isActive = false;
-    }
+      if (data.state == "end") {
+        selfT.isActive = false;
+      }
 
-    if (data.coordinates[0][1] > this.prevpos) {
-      this.direction = false;
-    } else {
-      this.direction = true;
-    }
+      if (data.coordinates[0][1] != null) {
+        if (data.coordinates[0][1] > this.prevpos) {
+          this.direction = false;
+        } else {
+          this.direction = true;
+        }
 
-    this.prevpos = data.coordinates[0][1];
+        this.prevpos = data.coordinates[0][1];
+      }
+    }
   };
 }
 
