@@ -8,6 +8,8 @@ nav_order: 1
 
 SmartController provides an easy way of turning a smartphone into versatile controller. Recommended to use with Google Chrome or Firefox.
 
+Paper now published at [arxiv](https://arxiv.org/abs/2208.02043)!
+
 <img src="media/controllers.gif" width="1000" />
 
 ## How it works
