@@ -2,6 +2,8 @@
 
 SmartController provides an easy way of turning a smartphone into versatile controller.
 
+Paper now published on [arxiv](https://arxiv.org/abs/2208.02043)!
+
 ## How it works
 
 ### 1. Include SmartController
